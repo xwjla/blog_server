@@ -1,6 +1,6 @@
 const router = require('koa-router')()
 const article = require('../models/article')
-router.prefix('/blogApi/article')
+router.prefix('/article')
 router.get('/getArticle',async(ctx,next) =>{
   let result = await article.getArticle(ctx);
   ctx.body = result;

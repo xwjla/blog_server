@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const getUserInfo = require('../models/userInfo')
 
-router.prefix('/blogApi/users')
+router.prefix('/users')
 
 router.get('/', async (ctx, next) => {
 	let result = await getUserInfo.getUserInfo(ctx);
@@ -23,6 +23,11 @@ router.post('/register',async (ctx,next) => {
 router.get('/getTag',async (ctx,next) => {
   const result = await getUserInfo.getTag(ctx)
   ctx.body = result
+})
+router.get('/getTagTest',async (ctx,next) => {
+  ctx.body = {
+    msg:'ceshi'
+  }
 })
 router.post('/publish',async (ctx,next) => {
   const result = await getUserInfo.publish(ctx)

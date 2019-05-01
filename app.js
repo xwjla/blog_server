@@ -7,10 +7,13 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const session = require('koa-session')
+const cors = require('koa2-cors');
+const koaBody = require('koa-body')
 
 const index = require('./server/routers/index')
 const users = require('./server/routers/users')
 const article = require('./server/routers/article')
+const upload = require('./server/routers/upload')
 
 app.keys = ['this is my secret and fuck you all'];
 
@@ -25,6 +28,7 @@ app.use((ctx, next) => {
     }
   })
 })
+app.use(cors());
 
 /*app.use(koajwt({
   secret: 'my_token'
@@ -42,6 +46,11 @@ app.use(session({
 
 // error handler
 onerror(app)
+
+app.use(koaBody({
+  multipart:true
+  }
+))
 
 // middlewares
 app.use(bodyparser({
@@ -67,6 +76,9 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
+app.use(upload.routes(), upload.allowedMethods())
+
+
 
 // error-handling
 app.on('error', (err, ctx) => {
