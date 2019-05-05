@@ -28,7 +28,11 @@ const userInfo = {
       rResult.msg = '登录成功';
       rResult.data = {
         token:token,
-        u_id:result[0].u_id};
+        userName:result[0].user_name,
+        u_id:result[0].u_id,
+        realName:result[0].real_name,
+        avater:result[0].avater
+      }
       rResult.code = '200';
     }else if(result.length == 1 && result[0].password != form.password){
       rResult.msg = '密码错误';

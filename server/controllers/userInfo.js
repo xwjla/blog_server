@@ -13,7 +13,6 @@ const userInfo = {
     return result
   },
   async publish(args){
-    console.log(args)
     let sql = 'insert into article(id,u_id,article_title,article_tag_id,article_text,article_content,create_time) values(?,?,?,?,?,?,?)'
     const id = toolApi.toolApi.guid()
     const Time = Date.parse(new Date())
@@ -23,7 +22,6 @@ const userInfo = {
   },
   async getTag(args){
     let sql = 'select *from tag where u_id = ?'
-    console.log(args)
     let params = [args.u_id]
     let result = await sqldb.query(sql,params)
     return result
