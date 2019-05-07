@@ -27,10 +27,10 @@ const userInfo = {
     return result
   },
   async register(ctx){
-    let sql = 'insert into userInfo(u_id,user_name,password,createTime) values (?,?,?,?)'
+    let sql = 'insert into userInfo(u_id,user_name,real_name,password,createTime) values (?,?,?,?,?)'
     const id = toolApi.toolApi.guid()
     const Time = Date.parse(new Date())
-    let params = [id,ctx.userName,ctx.password,Time]
+    let params = [id,ctx.userName,ctx.realName,ctx.password,Time]
     let result = await sqldb.query(sql,params)
     return result
   }
