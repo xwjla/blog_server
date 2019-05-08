@@ -1,6 +1,7 @@
 const router = require('koa-router')()
 const fs = require('fs')
 const path = require('path')
+const qiniu = require('qiniu')
 
 router.post('/uploadFile',async(ctx)=>{
   const file = ctx.request.files.file;    // 获取上传文件
@@ -22,6 +23,20 @@ router.post('/uploadFile',async(ctx)=>{
     },
     mag:"上传成功！"
   };
+})
+router.get('/qiniuUpload', async (ctx, next) => {
+  const bucket = 'xuweijin'
+  const accessKey = 'vGv2TJUZpDFKvQLJfkO8rT-XiCI7jBwAlgzCcyJl'
+  const secretKey = 'A8iPK4KmH_4b6ceFOQxQFtlmRFBeFYEnY_6n2_BR'
+
+  const mac = new qiniu.auth.digest.Mac(accessKey, secretKey);
+  const policyParams = { scope: bucket }
+  const putPolicy = new qiniu.rs.PutPolicy(policyParams);
+  const uploadToken = putPolicy.uploadToken(mac);
+  ctx.body = {
+    code:200,
+    data:{qiniuToken:uploadToken},
+    msg:'获取token成功'}
 })
 router.get('/uploadFile1',async(ctx)=>{
   ctx.body={

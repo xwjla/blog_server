@@ -71,6 +71,14 @@ const userInfo = {
       rResult.code = '200';
     }
     return rResult
+  },
+  async editUserAvater (ctx){
+    const form = ctx.request.body
+    let result = await cUserinfo.editUserAvater(form)
+    let rResult = {}
+    rResult.msg = '编辑成功';
+    rResult.code = '200';
+    return rResult
   }
 }
 

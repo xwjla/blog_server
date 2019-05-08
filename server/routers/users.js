@@ -20,6 +20,10 @@ router.post('/register',async (ctx,next) => {
   const result = await getUserInfo.register(ctx)
   ctx.body = result
 })
+router.post('/editUserAvater',async (ctx,next) => {
+  const result = await getUserInfo.editUserAvater(ctx)
+  ctx.body = result
+})
 router.get('/getTag',async (ctx,next) => {
   const result = await getUserInfo.getTag(ctx)
   ctx.body = result

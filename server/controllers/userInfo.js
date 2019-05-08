@@ -33,6 +33,14 @@ const userInfo = {
     let params = [id,ctx.userName,ctx.realName,ctx.password,Time]
     let result = await sqldb.query(sql,params)
     return result
+  },
+  async editUserAvater(ctx){
+    //let sql = 'insert into userInfo(u_id,user_name,real_name,password,createTime) values (?,?,?,?,?)'
+    console.log(ctx)
+    let sql = 'UPDATE userInfo SET avater="'+ctx.avater+'" WHERE u_id="'+ctx.u_id+'"';
+    console.log(sql)
+    let result = await sqldb.query(sql)
+    return result
   }
 }
 module.exports = userInfo
