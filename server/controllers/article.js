@@ -10,7 +10,7 @@ const article = {
       sql += ' order by create_time'
     }*/
     let sql = ''
-    let str = 'SELECT article.id, article.u_id, article.article_title, article.article_tag_id,article.article_text,article.create_time,tag.name as tag_name,userInfo.user_name FROM article LEFT JOIN tag ON article.article_tag_id=tag.id LEFT JOIN userInfo ON article.u_id=userInfo.u_id'
+    let str = 'SELECT article.id, article.u_id, article.article_title, article.article_tag_id,article.article_text,article.create_time,tag.name as tag_name,userInfo.user_name,userInfo.real_name FROM article LEFT JOIN tag ON article.article_tag_id=tag.id LEFT JOIN userInfo ON article.u_id=userInfo.u_id'
     let result = ''
     if(params[0]!=''){
       sql = str + ' where article.u_id = ? order by create_time DESC'
