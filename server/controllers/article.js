@@ -27,8 +27,16 @@ const article = {
     let params = [ctx.id]
     let sql = 'SELECT article.id, article.u_id, article.article_title, article.article_tag_id,article.article_text,article.article_content,article.create_time,tag.name as tag_name,userInfo.real_name,userInfo.user_name,userInfo.avater FROM article LEFT JOIN tag ON article.article_tag_id=tag.id LEFT JOIN userInfo ON article.u_id = userInfo.u_id where article.id = ?'
     //let sql = 'select * from article where id = ?'
-    let result = await sqldb.query(sql,params)
-    return result
+    let result1 = await sqldb.query(sql,params)
+    let sql2 = 'select COUNT(*) as count from userFollow where u_id = ? and f_id=?'
+    let params2 = [ctx.u_id,result1[0].u_id]
+    let result2 = await sqldb.query(sql2,params2)
+    console.log(result2[0].count)
+    let result3 = {}
+    return result3 = {
+      result1:result1,
+      result2:result2[0].count
+    }
   },
   async saveArticleTag(ctx){
     const id = toolApi.toolApi.guid()

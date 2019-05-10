@@ -34,6 +34,25 @@ const userInfo = {
     let result = await sqldb.query(sql,params)
     return result
   },
+  async follow(ctx){
+    let sql1 = 'select COUNT(*) as count from userFollow where u_id = ? and f_id=?'
+    let params1 = [ctx.u_id,ctx.f_id]
+    let result1 = await sqldb.query(sql1,params1)
+    let result = ''
+    if(result1[0].count == 0){
+      let sql = 'insert into userFollow(id,u_id,f_id,create_time) values (?,?,?,?)'
+      const id = toolApi.toolApi.guid()
+      const Time = Date.parse(new Date())
+      let params = [id,ctx.u_id,ctx.f_id,Time]
+      result = await sqldb.query(sql,params)
+    }else{
+      let sql = 'delete from userFollow where u_id=? and f_id=?'
+      let params = [ctx.u_id,ctx.f_id]
+      result = await sqldb.query(sql,params)
+    }
+
+    return result
+  },
   async editUserAvater(ctx){
     //let sql = 'insert into userInfo(u_id,user_name,real_name,password,createTime) values (?,?,?,?,?)'
     console.log(ctx)

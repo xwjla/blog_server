@@ -58,6 +58,14 @@ const userInfo = {
     rResult.code = '200';
     return rResult
   },
+  async follow(ctx){
+    const form = ctx.request.body
+    let result = await cUserinfo.follow(form)
+    let rResult = {}
+    rResult.msg = '关注成功';
+    rResult.code = '200';
+    return rResult
+  },
   async register (ctx){
 	  const form = ctx.request.body
     let result = await cUserinfo.getUserInfoByPhone(form.userName)

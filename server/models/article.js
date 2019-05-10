@@ -14,9 +14,16 @@ const article = {
   async getArticleById(ctx){
     const form = ctx.request.query
     let result = await cArticle.getArticleById(form)
+    let result3 = result.result1[0]
+    console.log(result)
+    if(result.result2 == 0){
+      result3.hasFollowed = 0
+    }else{
+      result3.hasFollowed = 1
+    }
     let rResult = {}
     rResult = {
-      data:result[0],
+      data:result3,
       code: '200',
       msg: '查询成功'
     }

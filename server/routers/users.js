@@ -28,10 +28,9 @@ router.get('/getTag',async (ctx,next) => {
   const result = await getUserInfo.getTag(ctx)
   ctx.body = result
 })
-router.get('/getTagTest',async (ctx,next) => {
-  ctx.body = {
-    msg:'ceshi'
-  }
+router.post('/follow',async (ctx,next) => {   //加关注
+  const result = await getUserInfo.follow(ctx)
+  ctx.body = result
 })
 router.post('/publish',async (ctx,next) => {
   const result = await getUserInfo.publish(ctx)
