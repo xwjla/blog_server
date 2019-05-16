@@ -50,6 +50,16 @@ const userInfo = {
     }
     return data
   },
+  async getUserBasicInfo(ctx){
+	  const form = ctx.request.query
+    let result = await cUserinfo.getUserBasicInfo(form)
+    let data = {
+      data:result,
+      msg:'success',
+      code:'200'
+    }
+    return data
+  },
   async publish(ctx){
     const form = ctx.request.body
     let result = await cUserinfo.publish(form)

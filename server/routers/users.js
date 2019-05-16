@@ -36,6 +36,10 @@ router.post('/publish',async (ctx,next) => {
   const result = await getUserInfo.publish(ctx)
   ctx.body = result
 })
+router.get('/getUserBasicInfo',async (ctx,next) => {
+  const result = await getUserInfo.getUserBasicInfo(ctx)
+  ctx.body = result
+})
 
 
 module.exports = router

@@ -60,6 +60,12 @@ const userInfo = {
     console.log(sql)
     let result = await sqldb.query(sql)
     return result
+  },
+  async getUserBasicInfo(ctx){   //获取用户基本信息
+    let sql = 'select u_id,user_name,real_name,avater from userInfo where u_id = ?'
+    let params = [ctx.u_id]
+    let result = await sqldb.query(sql,params)
+    return result[0]
   }
 }
 module.exports = userInfo
