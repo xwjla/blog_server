@@ -22,7 +22,7 @@ app.use((ctx, next) => {
     console.log(err.status)
     if(err.status === 401){
       ctx.status = 401;
-      ctx.body = 'Protected resource, use Authorization header to get access\n';
+      ctx.body = {msg:'token失效',code:401,state: 'error'};
     }else{
       throw err;
     }
@@ -30,11 +30,11 @@ app.use((ctx, next) => {
 })
 app.use(cors());
 
-/*app.use(koajwt({
+app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: [/\/users\/login/]
-}));*/
+  path: [/^\/users\/login/]
+}));
 
 app.use(session({
   key: 'koa:sess', /** cookie的名称，可以不管 */
