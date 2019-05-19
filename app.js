@@ -33,7 +33,7 @@ app.use(cors());
 app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: [/^\/users\/login/]
+  path: [/^\/users\/login/,'/article/getArticleById','/article/getArticle','/users/getUserBasicInfo']
 }));
 
 app.use(session({
