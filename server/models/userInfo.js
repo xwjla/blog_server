@@ -22,7 +22,7 @@ const userInfo = {
       rResult.code = '100';
     }else if(result.length == 1 && result[0].password == form.password){
       const token = jwt.sign({
-        name: form.user_name,
+        name: form.userName,
         _id: result[0].u_id
       }, 'my_token', { expiresIn: '2h' });
       rResult.msg = '登录成功';
@@ -42,6 +42,8 @@ const userInfo = {
   },
   async getTag(ctx){
     const form = ctx.request.query
+    const token = ctx.state.user
+    console.log(token)
     let result = await cUserinfo.getTag(form)
     let data = {
       data:result,
