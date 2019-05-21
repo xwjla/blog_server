@@ -74,7 +74,7 @@ const userInfo = {
     const form = ctx.request.body
     let result = await cUserinfo.follow(form)
     let rResult = {}
-    rResult.msg = '关注成功';
+    rResult.msg = '操作成功';
     rResult.code = '200';
     return rResult
   },

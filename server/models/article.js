@@ -29,6 +29,16 @@ const article = {
     }
     return rResult
   },
+  async collectArticle(ctx){
+    const form = ctx.request.body
+    let result = await cArticle.collectArticle(ctx,form)
+    let rResult = {}
+    rResult = {
+      code: '200',
+      msg: '操作成功'
+    }
+    return rResult
+  },
   async saveArticleTag(ctx){
     const form = ctx.request.body
     let result = await cArticle.saveArticleTag(form)

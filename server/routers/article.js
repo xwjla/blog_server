@@ -13,4 +13,8 @@ router.post('/saveArticleTag',async(ctx,next) => {
   let result = await article.saveArticleTag(ctx);
   ctx.body = result;
 })
+router.post('/collectArticle',async(ctx)=>{
+  let result = await article.collectArticle(ctx);
+  ctx.body = result;
+})
 module.exports = router

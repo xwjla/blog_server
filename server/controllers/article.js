@@ -38,6 +38,26 @@ const article = {
       result2:result2[0].count
     }
   },
+  async collectArticle(ctx,ctxParam){
+    const u_id = ctx.state.user._id
+    console.log(ctx.state)
+    let params = [u_id,ctxParam.article_id]
+    let sql = 'select count(*) as count from collection where u_id=? and article_id = ?'
+    let result = await sqldb.query(sql,params)
+    let result1 = ''
+    if(result[0].count == 0){
+      let sql1 = 'insert into collection(id,u_id,article_id,create_time) values (?,?,?,?)'
+      const id = toolApi.toolApi.guid()
+      const Time = Date.parse(new Date())
+      let params1 = [id,u_id,ctxParam.article_id,Time]
+      result1 = await sqldb.query(sql1,params1)
+    }else{
+      let sql1 = 'delete from collection where article_id = ? and u_id = ?'
+      let params1 = [ctxParam.article_id,u_id]
+      result1 = await sqldb.query(sql1,params1)
+    }
+    return result1
+  },
   async saveArticleTag(ctx){
     const id = toolApi.toolApi.guid()
     let params = [id,ctx.name,ctx.u_id]
