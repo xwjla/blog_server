@@ -65,6 +65,18 @@ const article = {
     let sql = 'insert into tag(id,name,u_id) values(?,?,?)'
     let result = await sqldb.query(sql,params)
     return result
+  },
+  async getCountCollectArticle(ctx){    //查询该文章被多少人收藏过
+    let sql = 'select count(*) as count from collection where article_id = ?'
+    let params = [ctx.id]
+    let result = await sqldb.query(sql,params)
+    return result
+  },
+  async hasCollect(ctx){
+    let sql = 'select count(*) as count from collection where u_id = ? and article_id = ?'
+    let params = [ctx.u_id,ctx.id]
+    let result = await sqldb.query(sql,params)
+    return result
   }
 }
 

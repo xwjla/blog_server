@@ -15,12 +15,20 @@ const article = {
     const form = ctx.request.query
     let result = await cArticle.getArticleById(form)
     let result3 = result.result1[0]
+    let collectCount = await cArticle.getCountCollectArticle(form)
+    if(form.u_id == ''){
+      result3.hasCollect = 0
+    }else {
+      let count = await cArticle.hasCollect(form)
+      result3.hasCollect = count[0].count
+    }
     console.log(result)
     if(result.result2 == 0){
       result3.hasFollowed = 0
     }else{
       result3.hasFollowed = 1
     }
+    result3.collectCount = collectCount[0].count
     let rResult = {}
     rResult = {
       data:result3,
