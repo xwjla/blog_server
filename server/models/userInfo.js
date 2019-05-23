@@ -1,6 +1,7 @@
 const sqldb = require('../utils/sqldb')
 const cUserinfo = require('../controllers/userInfo')
 const jwt = require('jsonwebtoken');
+const jwt_decode = require('jwt-decode');
 
 const userInfo = {
 	async getUserInfo (args){
@@ -53,8 +54,19 @@ const userInfo = {
     return data
   },
   async getUserBasicInfo(ctx){
-	  const form = ctx.request.query
+	  let form = ctx.request.query
     let result = await cUserinfo.getUserBasicInfo(form)
+    let followNum = await cUserinfo.followNum(form)
+
+    if(form.token !=''){
+	    form.token = jwt_decode(form.token)
+	    let hasFollowed = await cUserinfo.hasFollowed(form)
+      result.hasFollowed = hasFollowed[0].count
+    }else{
+      result.hasFollowed = 1
+    }
+    result.following = followNum[0].count
+    result.follower = followNum[1].count
     let data = {
       data:result,
       msg:'success',

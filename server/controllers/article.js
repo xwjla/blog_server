@@ -40,7 +40,6 @@ const article = {
   },
   async collectArticle(ctx,ctxParam){
     const u_id = ctx.state.user._id
-    console.log(ctx.state)
     let params = [u_id,ctxParam.article_id]
     let sql = 'select count(*) as count from collection where u_id=? and article_id = ?'
     let result = await sqldb.query(sql,params)

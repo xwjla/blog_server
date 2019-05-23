@@ -66,6 +66,19 @@ const userInfo = {
     let params = [ctx.u_id]
     let result = await sqldb.query(sql,params)
     return result[0]
+  },
+  async hasFollowed(ctx){
+    let sql1 = 'select COUNT(*) as count from userFollow where u_id = ? and f_id=?'
+    let params1 = [ctx.token._id,ctx.u_id]
+    let result1 = await sqldb.query(sql1,params1)
+    return result1
+  },
+  async followNum(ctx){
+    let sql = 'select count(*) as count from userFollow where u_id = ? union all select count(*) as count from userFollow where f_id = ?'
+    let params = [ctx.u_id,ctx.u_id]
+    let result = await sqldb.query(sql,params)
+    console.log(result)
+    return result
   }
 }
 module.exports = userInfo
