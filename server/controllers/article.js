@@ -63,6 +63,7 @@ const article = {
     //let sql = 'insert into article(id,u_id,article_title,article_tag_id,article_text,article_content,create_time) values(?,?,?,?,?,?,?)'
     let sql = 'insert into tag(id,name,u_id) values(?,?,?)'
     let result = await sqldb.query(sql,params)
+    result.tag_id = id
     return result
   },
   async getCountCollectArticle(ctx){    //查询该文章被多少人收藏过

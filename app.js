@@ -14,6 +14,7 @@ const index = require('./server/routers/index')
 const users = require('./server/routers/users')
 const article = require('./server/routers/article')
 const upload = require('./server/routers/upload')
+const lottery = require('./server/routers/lottery')
 
 app.keys = ['this is my secret and fuck you all'];
 
@@ -33,7 +34,7 @@ app.use(cors());
 app.use(koajwt({
   secret: 'my_token'
 }).unless({
-  path: [/^\/users\/login|upload|users\/register/,'/article/getArticleById','/article/getArticle','/users/getUserBasicInfo']
+  path: [/^\/users\/login|upload|users\/register/,'/article/getArticleById','/article/getArticle','/users/getUserBasicInfo','/lottery/getAllResult']
 }))
 
 app.use(session({
@@ -77,6 +78,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
 app.use(upload.routes(), upload.allowedMethods())
+app.use(lottery.routes(), lottery.allowedMethods())
 
 
 

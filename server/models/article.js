@@ -50,8 +50,12 @@ const article = {
   async saveArticleTag(ctx){
     const form = ctx.request.body
     let result = await cArticle.saveArticleTag(form)
+    console.log(result)
     let rResult = {}
     rResult = {
+      data:{
+        tag_id:result.tag_id
+      },
       code: '200',
       msg: '添加成功'
     }
