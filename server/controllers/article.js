@@ -77,6 +77,27 @@ const article = {
     let params = [ctx.u_id,ctx.id]
     let result = await sqldb.query(sql,params)
     return result
+  },
+  async commentSave(ctx){
+    const id = toolApi.toolApi.guid()
+    const Time = Date.parse(new Date())
+    let sql = 'insert into articleComment(id,article_id,parent_id,u_id,content,create_time) values(?,?,?,?,?,?)'
+    let params = [id,ctx.article_id,ctx.parent_id,ctx.u_id,ctx.content,Time]
+    let result = await sqldb.query(sql,params)
+    return result
+  },
+  async getCommentList(ctx){
+    let sql = 'select articleComment.id,articleComment.u_id,articleComment.content,articleComment.create_time,articleComment.parent_id,articleComment.article_id,userInfo.real_name,userInfo.user_name,userInfo.avater from articleComment left join userInfo on articleComment.u_id = userInfo.u_id where article_id = ? order by create_time DESC'
+    let params = [ctx.article_id]
+    let result = await sqldb.query(sql,params)
+    return result
+  },
+  async deleteComment(ctx){
+    let sql = 'delete from articleComment where u_id = ? and id = ?'
+    console.log(ctx)
+    let params = [ctx.token._id,ctx.id]
+    let result = await sqldb.query(sql,params)
+    return result
   }
 }
 
