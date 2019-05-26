@@ -60,6 +60,37 @@ const article = {
       msg: '添加成功'
     }
     return rResult
+  },
+  async commentSave(ctx){
+    const form = ctx.request.body
+    let result = await cArticle.commentSave(form)
+    let rReuslt = {
+      code:'200',
+      msg:'评论成功'
+    }
+    return rReuslt
+  },
+  async getCommentList(ctx){
+    const form = ctx.request.query
+    let result = await cArticle.getCommentList(form)
+    let rResult = {}
+    rResult = {
+      data:result,
+      code: '200',
+      msg: '查询成功'
+    }
+    return rResult
+  },
+  async deleteComment(ctx){
+    const form = ctx.request.body
+    form.token = ctx.state.user
+    let result = await cArticle.deleteComment(form)
+    let rResult = {}
+    rResult = {
+      code: '200',
+      msg: '删除成功'
+    }
+    return rResult
   }
 }
 
