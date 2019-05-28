@@ -73,9 +73,23 @@ const article = {
   async getCommentList(ctx){
     const form = ctx.request.query
     let result = await cArticle.getCommentList(form)
+    let arr = []
+    result.forEach((item,index)=>{
+      item.child = []
+      if(item.parent_id == '0'){
+        arr.push(item)
+      }
+    })
+    result.forEach((item,index)=>{
+      arr.forEach((option,index)=>{
+        if(option.id == item.parent_id){
+          option.child.unshift(item)
+        }
+      })
+    })
     let rResult = {}
     rResult = {
-      data:result,
+      data:arr,
       code: '200',
       msg: '查询成功'
     }

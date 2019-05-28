@@ -81,13 +81,13 @@ const article = {
   async commentSave(ctx){
     const id = toolApi.toolApi.guid()
     const Time = Date.parse(new Date())
-    let sql = 'insert into articleComment(id,article_id,parent_id,u_id,content,create_time) values(?,?,?,?,?,?)'
-    let params = [id,ctx.article_id,ctx.parent_id,ctx.u_id,ctx.content,Time]
+    let sql = 'insert into articleComment(id,article_id,parent_id,u_id,content,create_time,res_u_id) values(?,?,?,?,?,?,?)'
+    let params = [id,ctx.article_id,ctx.parent_id,ctx.u_id,ctx.content,Time,ctx.res_u_id]
     let result = await sqldb.query(sql,params)
     return result
   },
   async getCommentList(ctx){
-    let sql = 'select articleComment.id,articleComment.u_id,articleComment.content,articleComment.create_time,articleComment.parent_id,articleComment.article_id,userInfo.real_name,userInfo.user_name,userInfo.avater from articleComment left join userInfo on articleComment.u_id = userInfo.u_id where article_id = ? order by create_time DESC'
+    let sql = 'select articleComment.id,articleComment.u_id,articleComment.res_u_id,articleComment.content,articleComment.create_time,if(ISNULL(articleComment.parent_id)||(LENGTH(trim(articleComment.parent_id))=0),"0",`parent_id`) AS `parent_id`,articleComment.article_id,userInfo.real_name,userInfo.user_name,userInfo.avater,b.real_name as res_real_name from articleComment left join userInfo on articleComment.u_id = userInfo.u_id left join userInfo as b on articleComment.res_u_id = b.u_id where article_id = ? order by create_time DESC'
     let params = [ctx.article_id]
     let result = await sqldb.query(sql,params)
     return result
