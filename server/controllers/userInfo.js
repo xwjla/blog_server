@@ -63,7 +63,7 @@ const userInfo = {
   },
   async getUserBasicInfo(ctx){   //获取用户基本信息
     let sql = 'select u_id,user_name,real_name,avater from userInfo where u_id = ?'
-    let params = [ctx.u_id]
+    let params = [ctx]
     let result = await sqldb.query(sql,params)
     return result[0]
   },
@@ -77,7 +77,18 @@ const userInfo = {
     let sql = 'select count(*) as count from userFollow where u_id = ? union all select count(*) as count from userFollow where f_id = ?'
     let params = [ctx.u_id,ctx.u_id]
     let result = await sqldb.query(sql,params)
-    console.log(result)
+    return result
+  },
+  async getFollowerList(ctx){
+    let sql = 'select * from userFollow where u_id = ?'
+    let params = [ctx.u_id]
+    let result = await sqldb.query(sql,params)
+    return result
+  },
+  async getFollowingList(ctx){
+    let sql = 'select * from userFollow where f_id = ?'
+    let params = [ctx.u_id]
+    let result = await sqldb.query(sql,params)
     return result
   }
 }

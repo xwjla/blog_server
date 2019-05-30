@@ -40,6 +40,14 @@ router.get('/getUserBasicInfo',async (ctx,next) => {
   const result = await getUserInfo.getUserBasicInfo(ctx)
   ctx.body = result
 })
+router.get('/needless/getFollowerList',async (ctx,next) => {   //带needless前缀的表示不需要token校验
+  const result = await getUserInfo.getFollowerList(ctx)
+  ctx.body = result
+})
+router.get('/needless/getFollowingList',async (ctx,next) => {   //带needless前缀的表示不需要token校验
+  const result = await getUserInfo.getFollowingList(ctx)
+  ctx.body = result
+})
 
 
 module.exports = router

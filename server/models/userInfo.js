@@ -55,7 +55,7 @@ const userInfo = {
   },
   async getUserBasicInfo(ctx){
 	  let form = ctx.request.query
-    let result = await cUserinfo.getUserBasicInfo(form)
+    let result = await cUserinfo.getUserBasicInfo(form.u_id)
     let followNum = await cUserinfo.followNum(form)
 
     if(form.token !=''){
@@ -111,6 +111,42 @@ const userInfo = {
     rResult.msg = '编辑成功';
     rResult.code = '200';
     return rResult
+  },
+  async getFollowerList (ctx){
+    const form = ctx.request.query
+    let result = await cUserinfo.getFollowerList(form)
+    console.log(result)
+    for(let item in result){
+      //result[item].token=''
+      console.log(result[item])
+      let obj = await cUserinfo.getUserBasicInfo(result[item].f_id)
+      console.log(obj)
+      result[item].followerInfo = obj
+    }
+    let data = {
+      data:result,
+      msg:'success',
+      code:'200'
+    }
+    return data
+  },
+  async getFollowingList (ctx){
+    const form = ctx.request.query
+    let result = await cUserinfo.getFollowingList(form)
+    console.log(result)
+    for(let item in result){
+      //result[item].token=''
+      console.log(result[item])
+      let obj = await cUserinfo.getUserBasicInfo(result[item].u_id)
+      console.log(obj)
+      result[item].followerInfo = obj
+    }
+    let data = {
+      data:result,
+      msg:'success',
+      code:'200'
+    }
+    return data
   }
 }
 
