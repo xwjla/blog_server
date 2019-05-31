@@ -25,7 +25,7 @@ const userInfo = {
       const token = jwt.sign({
         name: form.userName,
         _id: result[0].u_id
-      }, 'my_token', { expiresIn: '2h' });
+      }, 'my_token', { expiresIn: '200h' });
       rResult.msg = '登录成功';
       rResult.data = {
         token:token,
