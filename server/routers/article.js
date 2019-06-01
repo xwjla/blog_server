@@ -25,6 +25,10 @@ router.get('/getCommentList',async(ctx)=>{
   let result = await article.getCommentList(ctx);
   ctx.body = result;
 })
+router.get('/needless/getCollection',async(ctx)=>{
+  let result = await article.getCollection(ctx);
+  ctx.body = result;
+})
 router.post('/deleteComment',async(ctx)=>{
   let result = await article.deleteComment(ctx);
   ctx.body = result;

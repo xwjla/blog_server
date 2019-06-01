@@ -105,6 +105,17 @@ const article = {
       msg: '删除成功'
     }
     return rResult
+  },
+  async getCollection(ctx){
+    const form = ctx.request.query
+    let result = await cArticle.getCollection(form)
+    let rResult = {}
+    rResult = {
+      data:result,
+      code: '200',
+      msg: '成功'
+    }
+    return rResult
   }
 }
 
