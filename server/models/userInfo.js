@@ -117,8 +117,24 @@ const userInfo = {
     let result = await cUserinfo.getFollowerList(form)
     console.log(result)
     for(let item in result){
+      if(form.token ==''){
+        result[item].hasFollowed = 0
+        result[item].self = 0
+      }else{
+        let params = {
+          u_id:result[item].f_id,
+          token:jwt_decode(form.token)
+        }
+        if(params.token._id == result[item].f_id){
+          result[item].self = 1
+        }else{
+          result[item].self = 0
+        }
+        let hasFollowR = await cUserinfo.hasFollowed(params)
+        console.log(hasFollowR)
+        result[item].hasFollowed = hasFollowR[0].count
+      }
       let obj = await cUserinfo.getUserBasicInfo(result[item].f_id)
-      console.log(obj)
       result[item].followerInfo = obj
     }
     let data = {
@@ -146,7 +162,6 @@ const userInfo = {
           result[item].self = 0
         }
         let hasFollowR = await cUserinfo.hasFollowed(params)
-        console.log(hasFollowR)
         result[item].hasFollowed = hasFollowR[0].count
       }
       let obj = await cUserinfo.getUserBasicInfo(result[item].u_id)

@@ -116,6 +116,17 @@ const article = {
       msg: '成功'
     }
     return rResult
+  },
+  async getArticleByTags(ctx){
+    const form = ctx.request.query
+    let result = await cArticle.getArticleByTags(form.id)
+    let rResult = {}
+    rResult = {
+      data:result,
+      code: '200',
+      msg: '成功'
+    }
+    return rResult
   }
 }
 

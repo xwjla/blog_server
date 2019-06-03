@@ -106,10 +106,14 @@ const article = {
   },
   async getArticleList(ctx){
     let params = [ctx]
-    console.log(params)
     let sql = 'SELECT article.id, article.u_id, article.article_title, article.article_tag_id,article.article_text,article.create_time,tag.name as tag_name,userInfo.user_name,userInfo.avater,userInfo.real_name,(select count(`article_id`) from articleComment where article.id = articleComment.`article_id`) as comment_count FROM article LEFT JOIN tag ON article.article_tag_id=tag.id LEFT JOIN userInfo ON article.u_id=userInfo.u_id where article.id in(select article_id from collection where u_id=?)'
     let result = await sqldb.query(sql,params)
-    console.log(result)
+    return result
+  },
+  async getArticleByTags(ctx){
+    let params = [ctx]
+    let sql = 'SELECT article.id, article.u_id, article.article_title, article.article_tag_id,article.article_text,article.create_time,tag.name as tag_name,userInfo.user_name,userInfo.avater,userInfo.real_name,(select count(`article_id`) from articleComment where article.id = articleComment.`article_id`) as comment_count FROM article LEFT JOIN tag ON article.article_tag_id=tag.id LEFT JOIN userInfo ON article.u_id=userInfo.u_id where article.article_tag_id = ?'
+    let result = await sqldb.query(sql,params)
     return result
   }
 }
