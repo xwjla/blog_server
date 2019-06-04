@@ -41,7 +41,7 @@ const userInfo = {
     }
     return rResult
   },
-  async getTag(ctx){
+  async getTag(ctx){   //获取标签列表
     const form = ctx.request.query
     const token = ctx.state.user
     console.log(token)

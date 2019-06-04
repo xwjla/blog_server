@@ -21,7 +21,7 @@ const userInfo = {
     return result
   },
   async getTag(args){
-    let sql = 'select *from tag where u_id = ?'
+    let sql = 'select tag.id,tag.name,tag.u_id,(select count(id) from article where tag.id = article.article_tag_id) as article_count from tag where u_id = ?'
     let params = [args.u_id]
     let result = await sqldb.query(sql,params)
     return result
