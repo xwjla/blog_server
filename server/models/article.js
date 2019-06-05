@@ -127,6 +127,17 @@ const article = {
       msg: '成功'
     }
     return rResult
+  },
+  async deleteArticle(ctx){
+    const form  = ctx.request.body
+    form.token = ctx.state.user
+    let result = await cArticle.deleteArticle(form)
+    let rResult = {}
+    rResult = {
+      code: '200',
+      msg: '删除成功'
+    }
+    return rResult
   }
 }
 

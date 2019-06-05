@@ -37,4 +37,8 @@ router.post('/deleteComment',async(ctx)=>{
   let result = await article.deleteComment(ctx);
   ctx.body = result;
 })
+router.post('/deleteArticle',async(ctx)=>{
+  let result = await article.deleteArticle(ctx);
+  ctx.body = result;
+})
 module.exports = router
