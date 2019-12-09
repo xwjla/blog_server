@@ -15,6 +15,7 @@ const users = require('./server/routers/users')
 const article = require('./server/routers/article')
 const upload = require('./server/routers/upload')
 const lottery = require('./server/routers/lottery')
+const messageBoard = require('./server/routers/messageBoard')
 
 app.keys = ['this is my secret and fuck you all'];
 
@@ -79,6 +80,7 @@ app.use(users.routes(), users.allowedMethods())
 app.use(article.routes(), article.allowedMethods())
 app.use(upload.routes(), upload.allowedMethods())
 app.use(lottery.routes(), lottery.allowedMethods())
+app.use(messageBoard.routes(), messageBoard.allowedMethods())
 
 
 
