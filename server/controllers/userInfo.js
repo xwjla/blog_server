@@ -13,15 +13,25 @@ const userInfo = {
     return result
   },
   async publish(args){
-    let sql = 'insert into article(id,u_id,article_title,article_tag_id,article_text,article_content,create_time) values(?,?,?,?,?,?,?)'
-    const id = toolApi.toolApi.guid()
-    const Time = Date.parse(new Date())
-    let params = [id,args.u_id,args.article_title,args.article_tag_id,args.article_text,args.article_content,Time]
+    let sql = ''
+    let params = ''
+    if(args.type == 'create'){
+      sql = 'insert into article(id,u_id,article_title,article_tag_id,article_text,article_content,create_time) values(?,?,?,?,?,?,?)'
+      const id = toolApi.toolApi.guid()
+      const Time = Date.parse(new Date())
+      params = [id,args.u_id,args.article_title,args.article_tag_id,args.article_text,args.article_content,Time]
+    }else{
+      console.log('jinlaile')
+      console.log(args.id)
+      sql = 'update article set article_title=?,article_tag_id=?,article_text=?,article_content=?,update_time=? where id=?'
+      const Time = Date.parse(new Date())
+      params = [args.article_title,args.article_tag_id,args.article_text,args.article_content,Time,args.id]
+    }
     let result = await sqldb.query(sql,params)
     return result
   },
   async getTag(args){
-    let sql = 'select tag.id,tag.name,tag.u_id,(select count(id) from article where tag.id = article.article_tag_id) as article_count from tag where u_id = ?'
+    let sql = 'select tag.id,tag.name,tag.u_id,(select count(id) from article where tag.id = article.article_tag_id and ( article.private not in(1) or article.private is null )) as article_count from tag where u_id = ?'
     let params = [args.u_id]
     let result = await sqldb.query(sql,params)
     return result
