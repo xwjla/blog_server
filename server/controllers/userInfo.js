@@ -21,8 +21,6 @@ const userInfo = {
       const Time = Date.parse(new Date())
       params = [id,args.u_id,args.article_title,args.article_tag_id,args.article_text,args.article_content,Time]
     }else{
-      console.log('jinlaile')
-      console.log(args.id)
       sql = 'update article set article_title=?,article_tag_id=?,article_text=?,article_content=?,update_time=? where id=?'
       const Time = Date.parse(new Date())
       params = [args.article_title,args.article_tag_id,args.article_text,args.article_content,Time,args.id]
@@ -55,6 +53,23 @@ const userInfo = {
       const Time = Date.parse(new Date())
       let params = [id,ctx.u_id,ctx.f_id,Time]
       result = await sqldb.query(sql,params)
+      let sql3 = 'select COUNT(*) as count,id from notice where user_id = ? and sender_id=? and type=?'
+      let params3 = [ctx.f_id,ctx.u_id,'follow']
+      let result3 = await sqldb.query(sql3,params3)
+      if(result3[0].count == 0){  //如果之前没关注过，插入一条
+        const id1 = toolApi.toolApi.guid()
+        const Time1 = Date.parse(new Date())
+        let sql2 = 'insert into notice(id,content,type,is_read,user_id,sender_id,target_id,target_type,create_time) values (?,?,?,?,?,?,?,?,?)'   //往消息表里插入一条数据
+        let params2 = [id1,' ','follow','0',ctx.f_id,ctx.u_id,' ',' ',Time1]
+        let result2 = await sqldb.query(sql2,params2)
+      }else{    //之前关注过，只更新时间
+        let sql2 = 'update notice set create_time=? and is_read = ? where id=?'
+        const Time1 = Date.parse(new Date())
+        let params2 = [Time1,'0',result3[0].id]
+        let result2 = await sqldb.query(sql2,params2)
+      }
+      console.log(global)
+      global.io.emit(ctx.f_id, {cccc: 1});
     }else{
       let sql = 'delete from userFollow where u_id=? and f_id=?'
       let params = [ctx.u_id,ctx.f_id]

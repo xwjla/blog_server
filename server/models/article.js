@@ -9,6 +9,10 @@ const article = {
       code: '200',
       msg: '查询成功'
     }
+    /*global.io.sockets.on('connection', function (socket) {
+      console.log('a user connected-----------');
+      global.io.socket.emit('new message', {cccc: 1});
+    })*/
     return rResult
   },
   async getArticleById(ctx){

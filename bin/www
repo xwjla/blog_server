@@ -8,6 +8,11 @@ var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
 
+const socketIo = require('../server/utils/socket')
+
+//io.set('origins', '*:*');
+//io.set('transports', ['websocket', 'xhr-polling', 'jsonp-polling', 'htmlfile', 'flashsocket']);
+
 /**
  * Get port from environment and store in Express.
  */
@@ -28,6 +33,34 @@ var server = http.createServer(app.callback());
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/*const io = require('socket.io')(server,{
+  origins: '*:*',
+  transports:['websocket', 'xhr-polling']
+});*/
+
+socketIo.getSocketio(server)
+
+
+/*io.on('connection', function(socket) {
+
+  console.log('a user connected');
+  socket.on('new message', function (id,data) {
+    // 广播给用户执行“new message”
+    console.log(data)
+    socket.emit('new message', {b:1});
+  });
+
+  // 当客户端发出“add user”时，服务端监听到并执行相关代码
+  socket.on('add user', function (username) {
+    socket.username = username;
+    //服务端告诉当前用户执行'login'指令
+    socket.emit('login', {});
+  });
+
+  // 当用户断开时执行此指令
+  socket.on('disconnect', function () {});
+})*/
 
 /**
  * Normalize a port into a number, string, or false.

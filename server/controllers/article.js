@@ -84,6 +84,24 @@ const article = {
     let sql = 'insert into articleComment(id,article_id,parent_id,u_id,content,create_time,res_u_id) values(?,?,?,?,?,?,?)'
     let params = [id,ctx.article_id,ctx.parent_id,ctx.u_id,ctx.content,Time,ctx.res_u_id]
     let result = await sqldb.query(sql,params)
+    if(ctx.u_id != ctx.res_u_id){   //回复自己的文章或评论时，不推送
+      if(ctx.parent_id){   //评论文章
+        const id1 = toolApi.toolApi.guid()
+        const Time1 = Date.parse(new Date())
+        let sql2 = 'insert into notice(id,content,type,is_read,user_id,sender_id,target_id,target_type,create_time) values (?,?,?,?,?,?,?,?,?)'   //往消息表里插入一条数据
+        let params2 = [id1,ctx.content,'comment','0',ctx.res_u_id,ctx.u_id,ctx.parent_id,'comment',Time1]
+        let result2 = await sqldb.query(sql2,params2)
+        global.io.emit(ctx.res_u_id, {cccc: 1});
+      }else{    //评论回复
+        const id1 = toolApi.toolApi.guid()
+        const Time1 = Date.parse(new Date())
+        let sql2 = 'insert into notice(id,content,type,is_read,user_id,sender_id,target_id,target_type,create_time) values (?,?,?,?,?,?,?,?,?)'   //往消息表里插入一条数据
+        let params2 = [id1,ctx.content,'article','0',ctx.res_u_id,ctx.u_id,ctx.article_id,'article',Time1]
+        let result2 = await sqldb.query(sql2,params2)
+        global.io.emit(ctx.res_u_id, {cccc: 1});
+      }
+    }
+
     return result
   },
   async getCommentList(ctx){
